@@ -20,7 +20,7 @@ import { MatListModule } from '@angular/material/list';
 //solo importamos componentes globales
 import { SharedModule } from './modules/shared/components/shared.module';
 
-@NgModule({
+@NgModule({ 
   declarations: [
     AppComponent,
     InicioComponent,

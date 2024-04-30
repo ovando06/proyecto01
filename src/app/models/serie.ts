@@ -4,5 +4,7 @@ export interface Serie {
     personaje: string;
     edad: number;
     temporada: string;
+    imagen: string;
+    alt: string;
 
 }

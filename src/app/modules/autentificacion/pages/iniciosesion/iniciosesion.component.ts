@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./iniciosesion.component.css']
 })
 export class IniciosesionComponent {
-
+hide=true;
 }

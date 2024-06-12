@@ -19,7 +19,7 @@ export class IniciosesionComponent {
         nombre: 'agostina',
         apellido: 'ovando',
         email: 'agosovando@gmail.com',
-        rol: 'visitante',
+        rol: 'vis',
         password: '123456'
       },
       {
@@ -35,7 +35,7 @@ export class IniciosesionComponent {
         nombre: 'luciano',
         apellido: 'franco',
         email: 'lucianofranco@gmail.com',
-        rol: 'admin',
+        rol: 'adm',
         password: 'abdce34'
       },
     ]
@@ -52,12 +52,12 @@ export class IniciosesionComponent {
 
   iniciarsesion() {
     const credenciales = {
-      uid: this.usuarios.uid = '',
-      nombre: this.usuarios.nombre = '',
-      apellido: this.usuarios.apellido = '',
-      email: this.usuarios.email = '',
-      rol: this.usuarios.rol = '',
-      password: this.usuarios.password = '',
+      uid: this.usuarios.uid,
+      nombre: this.usuarios.nombre,
+      apellido: this.usuarios.apellido,
+      email: this.usuarios.email,
+      rol: this.usuarios.rol,
+      password: this.usuarios.password,
     }
 
     //repetitiva para recorrer todos los usuarios locales

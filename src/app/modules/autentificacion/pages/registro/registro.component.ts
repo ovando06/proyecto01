@@ -71,7 +71,7 @@ export class RegistroComponent {
     //this.coleccionUsuario.push(credenciales)
 
     //notificamos al usuario que se registro bien
-    alert("¡te registraste con exito!");
+    //alert("¡te registraste con exito!");
 
     //
     this.limpiarInputs();

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario';
 //importamos serviico de autentificacion
 import { AuthService } from '../../services/auth.service';
+//importamos servicio de firestore
+import { FirestoreService } from 'src/app/modules/shared/services/firestore.service';
 //importamos componente de rutas de angular
 import { Router } from '@angular/router';
 @Component({
@@ -27,7 +29,9 @@ export class RegistroComponent {
   //creamos coleccion de usuarios, tipo 'usuario' para arrays
   coleccionUsuario: Usuario[] = [];
   //fin de importaciones
-  constructor(public servicioAuth: AuthService,
+  constructor(
+    public servicioAuth: AuthService,
+    public servicioFirestore: FirestoreService,
     public servicioRutas: Router
   ){}
 
@@ -66,6 +70,7 @@ export class RegistroComponent {
       .catch(error =>{
         alert("Hubo un error al registrar un nuevo usuario \n"+error);
       })
+      
 
     //enviamos la nueva informacion como un nuevo objeto a la coleccion de usuarios
     //this.coleccionUsuario.push(credenciales)
@@ -80,7 +85,19 @@ export class RegistroComponent {
     //console.log(credenciales);
     //console.log(this.coleccionUsuario);
   }
-
+  
+  /*funcion que accede a servicio FIREBASE y envia la informacion
+  agrega junto al UID
+  */
+  async guardarusuario(){
+    this.servicioFirestore.agregarusuario(this.usuarios, this.usuarios.uid)
+    .then(res => {
+      console.log(this.usuarios);
+    })
+    .catch(err => {
+      console.log('error =>', err);
+    })
+  }
   //funcion para vaciar los inputs del formulario
   limpiarInputs() {
     /*

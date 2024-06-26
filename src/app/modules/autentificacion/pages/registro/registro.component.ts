@@ -70,7 +70,14 @@ export class RegistroComponent {
       .catch(error =>{
         alert("Hubo un error al registrar un nuevo usuario \n"+error);
       })
+
+      const uid = await this.servicioAuth.obtenerUid();
+
+      this.guardarusuario();
+
+   
       
+
 
     //enviamos la nueva informacion como un nuevo objeto a la coleccion de usuarios
     //this.coleccionUsuario.push(credenciales)

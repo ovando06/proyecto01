@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth.service';
 import { FirestoreService } from 'src/app/modules/shared/services/firestore.service';
 import { Router } from '@angular/router';
 
+import * as CryptoJS from 'crypto-js';
+
 @Component({
   selector: 'app-iniciosesion',
   templateUrl: './iniciosesion.component.html',
@@ -101,7 +103,31 @@ export class IniciosesionComponent {
       password: this.usuarios.password
     }
 
-    const res = await this.servicioAuth.iniciarsesion(credenciales.email, credenciales.password)
+    try{
+      // obtenemos usuario de la BD
+      const usuarioBD = await this.servicioAuth.obtenerUsuario(credenciales.email);
+
+      //
+      if (!usuarioBD || usuarioBD.empty) {
+        alert("Correo electronico no está registrado");
+        this.limpiarInputs();
+        return;
+      }
+
+      //
+      const usuarioDoc = usuarioBD.docs[0];
+      //
+      const usuarioData = usuarioDoc.data() as Usuario;
+      //
+      const hashedPassword = CryptoJS.SHA256(credenciales.password).toString();
+      //
+      if (hashedPassword !== usuarioData.password) {
+        alert("Contraseña incorrecta");
+
+        this.usuarios.password = '';
+        return;
+      }
+      const res = await this.servicioAuth.iniciarsesion(credenciales.email, credenciales.password)
       .then(res => {
         alert('¡se pudo ingresar con exito!');
 
@@ -112,6 +138,11 @@ export class IniciosesionComponent {
 
         this.limpiarInputs();
       })
+    }catch(error){
+      this.limpiarInputs();
+    }
+
+  
 
   }
   limpiarInputs() {

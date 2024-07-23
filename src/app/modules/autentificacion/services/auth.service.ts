@@ -60,6 +60,6 @@ export class AuthService {
      * y los comparamos con los que ingrese el usuario al INICIAR SESION
      * lo vuelve una promesa => 
      */
-    return this.servicioFirestore.collection('usuarios', ref => ref.where('email','==')).get().toPromise();
+    return this.servicioFirestore.collection('usuarios', ref => ref.where('email','==',email)).get().toPromise();
   }
 }

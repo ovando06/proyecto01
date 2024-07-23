@@ -103,7 +103,7 @@ export class RegistroComponent {
     //alert("¡te registraste con exito!");
 
     // 
-    this.limpiarInputs();
+   
 
     //mostramos credenciales por consola
     //console.log(credenciales);

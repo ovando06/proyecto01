@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 
 import * as CryptoJS from 'crypto-js';
 
+//paqueteria de alertas personalizadas
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-iniciosesion',
   templateUrl: './iniciosesion.component.html',
@@ -109,7 +112,12 @@ export class IniciosesionComponent {
 
       //condicional verificaba que ese usuario de BD existiera o que sea igual al de nuestra coleccion
       if (!usuarioBD || usuarioBD.empty) {
-        alert("Correo electronico no está registrado");
+        Swal.fire({
+          title: "Ups!",
+          text: "Correo electronico no está registrado",
+          icon: "warning"
+        });
+        
         this.limpiarInputs();
         return;
       }
@@ -124,20 +132,34 @@ export class IniciosesionComponent {
       //condicional que compara la contraseña que acabamos de encriptar
       //y que el usuario envio con la que recibimos del "usuarioData"
       if (hashedPassword !== usuarioData.password) {
-        alert("Contraseña incorrecta");
 
+        Swal.fire({
+          title: "Ups!",
+          text: "Contraseña incorrecta",
+          icon: "error"
+        });
         this.usuarios.password = '';
         return;
       }
       
       const res = await this.servicioAuth.iniciarsesion(credenciales.email, credenciales.password)
       .then(res => {
-        alert('¡se pudo ingresar con exito!');
+        Swal.fire({
+          title: "Buen trabajo!",
+          text: "¡se pudo ingresar con exito!",
+          icon: "success"
+        });
+       
 
         this.servicioRutas.navigate(['/inicio']);
       })
       .catch(err => {
-        alert('hubo un problema al iniciar sesion' + err);
+        Swal.fire({
+          title: "Ups!",
+          text: "hubo un problema al iniciar sesion" + err,
+          icon: "warning"
+        });
+
 
         this.limpiarInputs();
       })

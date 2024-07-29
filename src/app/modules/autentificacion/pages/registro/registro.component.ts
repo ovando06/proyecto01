@@ -8,6 +8,8 @@ import { FirestoreService } from 'src/app/modules/shared/services/firestore.serv
 import { Router } from '@angular/router';
 //importamos paqueteria de criptacion
 import* as CryptoJS from 'crypto-js';
+//paqueteria de alertas personalizadas
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -63,14 +65,23 @@ export class RegistroComponent {
       const res = await this.servicioAuth.registrar(credenciales.email,credenciales.password)
       //el metodo THEN es una promesa que devuelve el mismo valor si todo sale bien
       .then(res => {
-        alert("se pudo registrar con exito");
+        Swal.fire({
+          title: "Buen trabajo!",
+          text: "Se pudo registrar con éxito!",
+          icon: "success"
+        });
         
         //el metodo NAVIGATE nos redirecciona a otra vista
         this.servicioRutas.navigate(['/inicio']);
       })
       //el metodo CATCH captura una falla y la vuelve un error cuando la promesa salga mal
       .catch(error =>{
-        alert("Hubo un error al registrar un nuevo usuario \n"+error);
+        Swal.fire({
+          title: "Oh no!",
+          text: "Hubo un error al registrar un nuevo usuario \n"+error,
+          icon: "error"
+        });
+    
       })
       
       //constante UID captura el identificado de la BD

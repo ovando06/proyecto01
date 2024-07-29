@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { Vista1Component } from './vista1/vista1.component';
 import { InicioComponent } from './modules/inicio/components/inicio/inicio.component';
 
 
@@ -28,6 +27,9 @@ const routes: Routes = [
 },
 {
   path:"", loadChildren:()=>import('./modules/autentificacion/autentificacion.module').then(m=>m.AutentificacionModule)
+},
+{
+  path:"", loadChildren:()=>import('./modules/admin/admin.module').then(m=>m.AdminModule)
 }
 //
 

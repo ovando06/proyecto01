@@ -1,1 +1,41 @@
-<p>table works!</p>
+<table class="table">
+<thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Imagen</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Descripcion</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Acciones</th>
+
+ 
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let producto of coleccionProductos">
+        <th scope="col">1</th>
+        
+        <td><img src="{{producto.imagen}}" alt="{{producto.alt}}"></td>
+        <td>{{producto.nombre}}</td>
+        <td>{{producto.precio}}</td>
+        <td>{{producto.descripcion}}</td>
+        <td>{{producto.categoria}}</td>
+
+        <!--ACCIONES-->
+        <td>
+            <button>
+                <mat-icon id="btn-edit" title="Editar" type="button" class="btn btn-outline-info">edit</mat-icon>
+            </button>
+        </td>
+        <td>
+            <button>
+                <mat-icon id="btn-delete" title="Eliminar" type="button" class="btn btn-outline-danger">delete</mat-icon>
+            </button>
+        </td>
+        
+        
+        
+    </tr>
+</tbody>
+</table>

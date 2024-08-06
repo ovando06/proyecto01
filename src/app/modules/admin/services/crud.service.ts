@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Producto } from 'src/app/models/producto';
 //importamos angular firestore para ingresar a la BD
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { map } from 'rxjs';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +41,15 @@ export class CrudService {
     })
    }
    //obtener productos
+   obtenerProducto(){
+    /**
+     * snapshotchanges => toma captura del estado de los datos
+     * pipe => tutorias que retornan un nuevo arreglo
+     * map => "mapea" o recorre esa nueva informacion
+     * a => resguarda la nueva informacion y la envia como un documento
+     */
+    return this.productoColecction.snapshotChanges().pipe(map(action => action.map(a => a.payload.doc.data())))
+   }
    //editar productos
    //eliminar productos
 }

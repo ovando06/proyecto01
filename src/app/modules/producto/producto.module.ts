@@ -10,6 +10,13 @@ import { PapeleriaComponent } from './pages/papeleria/papeleria.component';
 import { AccesoriosComponent } from './pages/accesorios/accesorios.component';
 import { IndumentariaComponent } from './pages/indumentaria/indumentaria.component';
 
+//COMPONENTES LOCALES
+import { CardComponent } from './components/card/card.component';
+import { CardAccesoriosComponent } from './components/card-accesorios/card-accesorios.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -17,6 +24,8 @@ import { IndumentariaComponent } from './pages/indumentaria/indumentaria.compone
     PapeleriaComponent,
     AccesoriosComponent,
     IndumentariaComponent,
+    CardComponent,
+    CardAccesoriosComponent,
   ],
   imports: [
     CommonModule,
@@ -26,7 +35,9 @@ import { IndumentariaComponent } from './pages/indumentaria/indumentaria.compone
     ProductoComponent,
     PapeleriaComponent,
     AccesoriosComponent,
-    IndumentariaComponent
+    IndumentariaComponent,
+    CardComponent,
+    CardAccesoriosComponent,
   ]
 })
 export class ProductoModule { }

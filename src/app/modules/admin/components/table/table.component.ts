@@ -5,6 +5,7 @@ import { Producto } from 'src/app/models/producto';
 import { CrudService } from '../../services/crud.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-table',
@@ -83,5 +84,36 @@ export class TableComponent {
       alert ("Ha ocurrido un error al eliminar el producto :( \n"+error);
     })
   }
+
+editarProducto(){
+  let datos: Producto = {
+    //solo id producto no se modifica por el usuario
+    idProducto: this.productoSeleccionado.idProducto,
+    //los demas atributos reciben nueva informacion desde el usuario
+    nombre: this.producto.value.nombre!,
+    precio: this.producto.value.precio!,
+    descripcion: this.producto.value.descripcion!,
+    categoria: this.producto.value.categoria!,
+    imagen: this.producto.value.imagen!,
+    alt: this.producto.value.alt!,
+  }
+  this.servicioCrud.modificarProducto(this.productoSeleccionado.idProducto, datos)
+  .then(articulo =>{
+    Swal.fire({
+      title: "bien!",
+      text: "se edito el producto con éxito!",
+      icon: "success",
+    });
+    this.producto.reset();
+  })
+  .catch(error => {
+    Swal.fire({
+      title: "error!",
+      text: "error al editar el producto",
+      icon: "error"
+    });
+    this.producto.reset();
+  })
+}
 
 }

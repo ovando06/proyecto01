@@ -7,7 +7,7 @@ import { AccesoriosComponent } from './pages/accesorios/accesorios.component';
 
 const routes: Routes = [
   {
-    path:"producto",component:ProductoComponent
+    path:"general",component:ProductoComponent
   },
   {
     path:"papeleria",component:PapeleriaComponent

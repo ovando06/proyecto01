@@ -90,7 +90,10 @@
         <!--IMAGEN-->
         <div class="mb-3">
           <label class="form-label">Ingrese imagen</label>
-          <input class="form-control" type="text" formControlName="imagen" placeholder="Ej: Ingrese vinculo de imagen">
+          <!--type="file" recobe archivos
+          accept acepta todo tipo de extensiones (jpg, jpeg, png, gif)
+          (change) ejecuta el evento de cargarImagen  que definimos en el table.ts-->
+          <input type="file" accept="imagen/*" (change)="cargarimagen($event)">
         </div>
 
         <!--ALT-->
@@ -184,7 +187,7 @@
 
         <div class="mb-3">
           <label class="form-label">ingrese la imagen del producto</label>
-          <input class="form-control" type="text" formControlName="imagen" placeholder="{{Producto.imagen}}">
+          <input type="file" accept="imagen/*" (change)="cargarimagen($event)">
         </div>
 
 

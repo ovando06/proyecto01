@@ -5,6 +5,20 @@ import { Producto } from 'src/app/models/producto';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs';
 import { Action } from 'rxjs/internal/scheduler/Action';
+//importaciones para manejjo de archivos y referencias 
+import { getDownloadURL, getStorage, ref, UploadResult, uploadString, deleteObject } from 'firebase/storage';
+
+//la primera importancion es para oobtener la url de descarga de una imagen subida 
+
+//getStorage para obtener la instancia de almacenamiento
+
+//ref para crear referencias a ubicaciones en el almacenamiento
+
+//uploadresult tipo que rerpresennta el resultado de una operacion subida
+
+//uploadstring para sbuir imagen¿es en formate cadena
+
+//deleteobject para eliminar un espacio en el almacenamiento 
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +26,10 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 export class CrudService {
   //definimos coleccion para los productos de la web
   private productoColecction: AngularFirestoreCollection<Producto>
+  //definimos VARIABLE RESPUESTA QUE PODRA SUBIR RESULTADOS
+  private respuesta!: UploadResult;
+  //inicializar servicio de storage 
+  private storage = getStorage();
 
 
 
@@ -21,13 +39,15 @@ export class CrudService {
    }
 
    //crear productos
-   crearProducto(producto: Producto){
+   crearProducto(producto: Producto, url:string){
     return new Promise(async(resolve,reject)=>{
       try{
         //Creamos numero identificativo para el producto en la Bd
         const idProducto = this.database.createId();
         //asignamos ID creado al atributo idProducto de la inhterfaz Producto
         producto.idProducto = idProducto;
+           //asignamos url recibida del parametro al atributo imagen de interfaz producto 
+           producto.imagen = url;
 
         //
         const resultado = await this.productoColecction.doc(idProducto).set(producto);
@@ -59,21 +79,66 @@ export class CrudService {
     return this.database.collection('productos').doc(idProducto).update(nuevaData);
   }
    //eliminar productos
-   eliminarProducto(idProducto: string){
+   eliminarProducto(idProducto: string, imagenUrl : string){
     //
     return new Promise((resolve, reject) => {
       try{
-        const respuesta = this.productoColecction.doc(idProducto).delete();
+        //definimos referencias localmente de storage
+        const storage = getStorage();
+        //obtiene la refrencia desde el almacenamiento de storage 
+        const referenciaImagen = ref(storage, imagenUrl);
         //
-        resolve (respuesta);
+        deleteObject(referenciaImagen)
+        .then((res)=> {
+          const respuesta = this.productoColecction.doc(idProducto).delete();
+          resolve (respuesta);
+        })
+        .catch(error => {
+          reject("Error al eliminar la imagen: \n"+error);
+        })
+                
       }
       //va a encapsular un error o una falla, por lo tanto lo va a rechazar
       catch(error){
 
         reject(error);
       }
-
     })
    }
+     //obtener url de imagenes
+  obtenerURLimagen(respuesta: UploadResult) {
+    //retorna url obtenmido como referencia
+    return getDownloadURL(respuesta.ref);
+  }
 
+  //Subir imagenes con sus referencias
+  /**
+   * 
+   * @param {string} nombre //nombre de la imagen
+   * @param {any} imagen   //tipo de imagenes que se pueden subir 
+   * @param {string} ruta  //ruta de almacenamiento de las imagenes
+   * @return //se retorna lo obtenido 
+   */
+  async subirimagen(nombre: string, imagen: any, ruta: string) {
+    try {
+
+      //crear una imagen de referencia
+      //accede a storage (almacenamiento), ruta (carpeta) / nombre (nombreImagen)
+      let referenciaImagen = ref(this.storage, ruta + '/' + nombre);
+
+      //asignarla a la respuesta la informacion de las imagenes subidas
+      this.respuesta = await uploadString(referenciaImagen, imagen, 'data_url')
+
+        .then(resp => {
+          return resp;
+        })
+      return this.respuesta
+    }
+    catch (error) {
+      console.log(error);
+
+      return this.respuesta
+    }
+
+}
 }
